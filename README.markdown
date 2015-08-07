@@ -1,5 +1,15 @@
 # NGINX Module
 
+Credits: https://forge.puppetlabs.com/jfryman/nginx/readme
+
+### How to use original nginx module at Puppet Forge
+
+```puppet module install jfryman-nginx```
+
+This code is frozen from 6th August, 2015 and developed separately.
+
+## Continue reading the original documentation
+
 ## INSTALLING OR UPGRADING
 ** Please note **: This module is currently undergoing some structural
 maintenance. Please take a look at [https://github.com/jfryman/puppet-nginx/blob/master/docs/hiera.md](https://github.com/jfryman/puppet-nginx/blob/master/docs/hiera.md)
