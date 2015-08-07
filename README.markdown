@@ -2,11 +2,55 @@
 
 Credits: https://forge.puppetlabs.com/jfryman/nginx/readme
 
+This code is frozen from 6th August, 2015 and developed separately.
+
+Sample ```/etc/puppet/manifests/site.pp``` code in puppet master.
+
+```
+import 'nginx'
+
+node default {
+
+}
+
+node 'nginx.puppet.example.com' {
+
+        include 'nginx'
+
+        # Defining the ssl certificate file path
+        # It is assumed that these certificates are included in your keystores to
+        # enable ssl communication
+        $dirpath = '/etc/nginx/ssl'
+
+        # Create the ssl directory inside nginx configuration directory
+        exec { "create_ssl_cert_dir":
+                path        => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+                command => "mkdir -p ${dirpath}",
+        }
+
+        # Copy the ssl cert files
+        file { "/etc/nginx/ssl":
+                source => "puppet:///modules/nginx/ssl",
+                recurse => true,
+        }
+
+        # nginx configuration for a given product cluster pattern
+        file { "/etc/nginx/conf.d/wso2carbon.conf":
+                source => "puppet:///modules/nginx/wso2carbon.conf",
+        }
+
+}
+```
+
+When we copy this ```wso2carbon.conf``` cluster pattern specific nginx configuration file into the ```/etc/nginx/conf.d``` directory of the pupept agent (which is also our nginx node),  the server configuration inside this file will be included to the HTTP block of the ```/etc/nginx/nginx.conf``` file as follows.
+``` 
+include /etc/nginx/conf.d/*.conf;
+```
+Then your nginx is ready for action!
+
 ### How to use original nginx module at Puppet Forge
 
 ```puppet module install jfryman-nginx```
-
-This code is frozen from 6th August, 2015 and developed separately.
 
 ## Continue reading the original documentation
 
